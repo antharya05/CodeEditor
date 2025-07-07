@@ -1,44 +1,63 @@
-*{
-  margin:0;
-  padding:0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-  margin :0;
-  padding:0;
-  box-sizing:border-box;
-  background-color:black;
-  color:white;
-  
-}
-.css-sl4pg4-control{
-  width: 30% !important;
+body {
+  background-color: black;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.btnNormal{
-  padding:10px;
-  color:#fff;
-  border-radius:10px;
-  border:0;
-  outline:0;
-  cursor:pointer;
+/* Glassmorphism Card */
+.glass-card {
+  background: rgba(18, 18, 30, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
 }
-.css-b62m3t-container{
-  width: 65%;
+
+/* Neon Button */
+.glow-button {
+  background: linear-gradient(90deg, #9333ea, #7e22ce, #6d28d9);
+  color: white;
+  font-weight: bold;
+  border-radius: 0.75rem;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px #9333ea88;
 }
-.css-1mi3hag-control{
-  width: 100%;
+
+.glow-button:hover {
+  box-shadow: 0 0 20px #9333eacc;
+  transform: scale(1.05);
 }
-p>strong{
-  font-size:20px !important;
-  color:white;
+
+/* Scrollbar */
+.response-panel::-webkit-scrollbar {
+  width: 6px;
 }
-p{
-  margin-top:10px !important;
-  margin-bottom:10px !important;
-  color:grey ;
+
+.response-panel::-webkit-scrollbar-thumb {
+  background-color: #a855f7;
+  border-radius: 8px;
 }
-ul li{
+
+/* Markdown */
+p>strong {
+  font-size: 20px !important;
+  color: white;
+}
+
+p {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  color: grey;
+}
+
+ul li {
   color: grey;
   margin-top: 10px !important;
   margin-bottom: 10px !important;
@@ -48,28 +67,33 @@ ul li{
 li strong {
   color: #fff;
 }
-pre{
+
+pre {
   background-color: #121214 !important;
   padding: 10px;
   color: #fff;
   overflow: auto;
 }
 
-pre::-webkit-scrollbar{
- display: none;
+pre::-webkit-scrollbar {
+  display: none;
 }
 
-/* width */
 ::-webkit-scrollbar {
   width: 5px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #030303;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #212121;
+}
+
+.navbar {
+  background: rgba(10, 2, 19, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }

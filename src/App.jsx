@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import "./App.css";
-import Navbar from "./components/Navbar";
+import './App.css';
+import Navbar from './components/Navbar';
 import Editor from '@monaco-editor/react';
 import Select from 'react-select';
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI } from '@google/genai';
 import Markdown from 'react-markdown';
-import FadeLoader from "react-spinners/FadeLoader";
+import FadeLoader from 'react-spinners/FadeLoader';
+
 const App = () => {
   const options = [
     { value: 'cpp', label: 'C++' },
@@ -21,107 +22,121 @@ const App = () => {
   ];
 
   const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState('');
+
+  const ai = new GoogleGenAI({ apiKey: 'AIzaSyCGLpOYWIgalBgc6sFiOeSzSmcCIf3h4ao' });
 
   const customStyles = {
     control: (provided) => ({
       ...provided,
-      backgroundColor: '#18181b', // dark background (similar to bg-zinc-900)
-      borderColor: '#3f3f46',
+      backgroundColor: '#1a1128',
+      borderColor: '#a855f7',
       color: '#fff',
-      width: "100%"
+      minWidth: '200px',
+      borderRadius: '0.75rem',
+      padding: '6px',
+      boxShadow: '0 0 0 1px #a855f7'
     }),
     menu: (provided) => ({
       ...provided,
-      backgroundColor: '#18181b', // dropdown bg
+      backgroundColor: '#1a1128',
       color: '#fff',
-      width: "100%"
+      borderRadius: '0.5rem'
     }),
     singleValue: (provided) => ({
       ...provided,
-      color: '#fff',  // selected option text
-      width: "100%"
+      color: '#fff',
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isFocused ? '#27272a' : '#18181b',  // hover effect
+      backgroundColor: state.isFocused ? '#7e22ce' : '#1a1128',
       color: '#fff',
-      cursor: 'pointer',
-      // width: "30%"
+      cursor: 'pointer'
     }),
     input: (provided) => ({
       ...provided,
       color: '#fff',
-      width: "100%"
     }),
     placeholder: (provided) => ({
       ...provided,
-      color: '#a1a1aa',  // placeholder text color
-      width: "100%"
+      color: '#d1aaff',
     }),
   };
-  const [code, setCode] = useState("");
-  const ai = new GoogleGenAI({ apiKey: "AIzaSyCGLpOYWIgalBgc6sFiOeSzSmcCIf3h4ao" });
-  const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState("");
+
   async function reviewcode() {
-    setResponse("")
+    if (!code.trim()) {
+      alert('Please enter code to review.');
+      return;
+    }
+    setResponse('');
     setLoading(true);
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: `You are a skilled software developer who writes clean and efficient code. A user is sharing some code written in ${selectedOption.value}.
-
-Your task is to carefully review the code and give the following:
-
-1. Rate the code quality as: Excellent, Good, Average, or Poor.
-2. Suggest ways to improve the code, including better methods or best practices.
-3. Explain what the code is doing, step by step.
-4. Point out any possible bugs or logic mistakes.
-5. Mention any syntax or runtime errors you find.
-6. Give clear advice on how to fix the issues you found.
-
-Review it like a senior developer looking at a teammate’s code.
-Code:${code}
-`,
-
+      model: 'gemini-2.5-flash',
+      contents: `You are a skilled software developer reviewing the following ${selectedOption.value} code:\n\n${code}\n\nGive a detailed review as a senior developer.`
     });
-    console.log(response.text);
+    setResponse(response.text);
     setLoading(false);
-    setResponse(response.text)
   }
+
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#0a0213] via-[#1c042d] to-[#11001c] text-white font-sans">
       <Navbar />
-      <div className="main flex justify-between" style={{ height: "calc(100vh - 90px)" }}>
-        <div className="left h-[87%] w-[50%]">
-          <div className="tabs !mt-5 !px-5 !mb-3 w-full flex items-center gap-[100px]" >
-            <Select
-              value={selectedOption}
-              onChange={(e) => setSelectedOption(e)}
-              options={options}
-              styles={customStyles}
-            />
-            <button onClick={() => {
-              if (code === "") {
-                alert("please enter code")
-              }
-              else {
-                reviewcode()
-              }
-            }
-            }
-              className="btnNormal bg-zinc-900 min-w-[120px] transition-all hover:bg-zinc-800">Review</button>
+
+      {/* SPACING BELOW NAVBAR */}
+      <div style={{ marginTop: '60px' }}>
+        <div className="px-4 py-6">
+          <div className="flex flex-col md:flex-row flex-grow gap-10">
+
+            {/* Left Panel */}
+            <div className="w-full md:w-1/2 flex flex-col gap-8">
+              <div className="flex flex-col sm:flex-row gap-8 items-stretch sm:items-center justify-between">
+                <Select
+                  value={selectedOption}
+                  onChange={(e) => setSelectedOption(e)}
+                  options={options}
+                  styles={customStyles}
+                />
+                <button
+                  onClick={reviewcode}
+                  className="glow-button"
+                >
+                  Review Code
+                </button>
+              </div>
+
+              <div className="rounded-xl overflow-hidden border border-[#7e22ce] shadow-md">
+                <Editor
+                  height="400px"
+                  theme="vs-dark"
+                  language={selectedOption.value}
+                  value={code}
+                  onChange={(e) => setCode(e)}
+                />
+              </div>
+            </div>
+
+            {/* Right Panel */}
+            <div className="glass-card w-full md:w-1/2 p-6 overflow-y-auto response-panel max-h-[80vh]">
+              <h2 className="text-2xl font-bold mb-4 border-b border-purple-600 pb-2 text-purple-300">
+                &nbsp;&nbsp;Response
+              </h2>
+
+
+              {loading ? (
+                <div className="flex justify-center items-center h-full">
+                  <FadeLoader color="#d946ef" />
+                </div>
+              ) : (
+                <Markdown>{response}</Markdown>
+              )}
+            </div>
+
           </div>
-          <Editor height="100%" theme="vs-dark" language={selectedOption.value} value={code} onChange={(e) => { setCode(e) }} />
         </div>
-        <div className="right overflow-scroll !p-[10px] bg-zinc-900 w-[50%] h-[100%]">
-          <div className="toptab border-y-3 border-zinc-300 dark:border-zinc-600 flex items-center justify-between h-[60px]">
-            <p className='font-[700] text-[17px]'>Response</p>
-          </div>
-          {loading && <FadeLoader color="white" />}
-          <Markdown>{response}</Markdown>
-        </div>
-      </div >
-    </>
+      </div>
+    </div>
   );
 };
 
