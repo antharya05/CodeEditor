@@ -1,18 +1,33 @@
-🧠 Code Reviewer AI
-A web-based code review assistant powered by Google Gemini (Gemini 2.5 Flash) and built with React, Monaco Editor, and Tailwind CSS. It helps developers get instant feedback, quality scores, bug detection, and improvement suggestions for code written in multiple programming languages.
+# 🧠 Code Reviewer AI
 
-🚀 Features
-✅ Supports multiple programming languages (Python, C++, Java, JS, Go, etc.)
-✅ Uses Google Gemini AI for intelligent, contextual code reviews
-✅ Clean interface with Monaco code editor and Markdown-rendered responses
-✅ Dark theme with custom-styled language selector
-✅ Spinner for loading feedback
-✅ Secure API key usage via environment variables
-🛠️ Tech Stack
-Frontend	AI/LLM	Styling	Editor
-React (Vite)	Google GenAI (Gemini)	Tailwind CSS	Monaco Editor
-📦 Getting Started
-1. Clone the repository
+A web-based code review assistant powered by **Google Gemini (Gemini 2.5 Flash)** and built with **React**, **Monaco Editor**, and **Tailwind CSS**. It helps developers get instant feedback, quality scores, bug detection, and improvement suggestions for code written in multiple programming languages.
+
+---
+
+## 🚀 Features
+
+- ✅ Supports multiple programming languages (Python, C++, Java, JS, Go, etc.)
+- ✅ Uses Google Gemini AI for intelligent, contextual code reviews
+- ✅ Clean interface with Monaco code editor and Markdown-rendered responses
+- ✅ Dark theme with custom-styled language selector
+- ✅ Spinner for loading feedback
+- ✅ Secure API key usage via environment variables
+
+---
+
+## 🛠️ Tech Stack
+
+| Frontend     | AI/LLM         | Styling       | Editor        |
+|--------------|----------------|----------------|----------------|
+| React (Vite) | Google GenAI (Gemini) | Tailwind CSS | Monaco Editor |
+
+---
+
+## 📦 Getting Started
+
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/your-username/code-reviewer-ai.git
 cd code-reviewer-ai
 2. Install dependencies
